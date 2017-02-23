@@ -9,11 +9,11 @@ DEFAULT_PATTERNS = [
      'TAGS': {'TOPIC': 'TOPIC', 'ROOM': -3},
      'MEASUREMENT': "leinwand", 'TYPE': str
      },
-    {'SUB': 'foobar/+/tuer/',
+    {'SUB': 'foobar/+/tuer',
      'TAGS': {'location': -2},
      'MEASUREMENT': "door_status", 'TYPE': int
      },
-    {'SUB': '#/temperatur',
+    {'SUB': '/hq/og/baellebad/sensoren/temperatur',
      'TAGS': {'location': -3},
      'MEASUREMENT': "temperature", 'TYPE': float
      }
