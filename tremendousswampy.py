@@ -9,6 +9,10 @@ DEFAULT_PATTERNS = [
      'TAGS': {'TOPIC': 'TOPIC', 'ROOM': -3},
      'MEASUREMENT': "leinwand", 'TYPE': str
      },
+    {'SUB': 'foobar/+/tuer/',
+     'TAGS': {'location': -2},
+     'MEASUREMENT': "door_status", 'TYPE': int
+     }
 ]
 
 # all the cmdline foo
