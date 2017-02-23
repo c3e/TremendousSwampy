@@ -13,6 +13,10 @@ DEFAULT_PATTERNS = [
      'TAGS': {'location': -2},
      'MEASUREMENT': "door_status", 'TYPE': int
      }
+    {'SUB': '#/temperatur',
+     'TAGS': {'location': -3},
+     'MEASUREMENT': "temperature", 'TYPE': float
+     }
 ]
 
 # all the cmdline foo
