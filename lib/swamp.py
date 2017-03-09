@@ -1,6 +1,9 @@
 from datetime import datetime
 import json
 from paho.mqtt.client import topic_matches_sub
+import logging
+
+logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
 
 PATTERN_RULES = """
 {
@@ -59,15 +62,17 @@ class Swamp(object):
     """Takes a mqtt-client, a influxdb-client and a list of patterns
     Subscribes to all patterns and push them into influxdb accordingly"""
 
-    def __init__(self, mqttclient, influxdbclient, patterns):
+    def __init__(self, mqttclient, influxdbclient, patterns, debug=True):
         super(Swamp, self).__init__()
         self.mqtt = mqttclient
         self.influx = influxdbclient
         self.patterns = patterns
+        self.debug = debug
         # subscribe all topics
 
     def on_message(self, client, userdata, message):
-        print("MQTT Publish Event")
+        if self.debug:
+            logging.debug('MQTT MSG received on topic: %s' % message.topic)
         for pattern in self.patterns:
             if topic_matches_sub(pattern['SUB'], message.topic):
                 split_topic = message.topic.split("/")
@@ -76,10 +81,14 @@ class Swamp(object):
                 json_data['fields'] = {'value': set_value(pattern, message), }
                 json_data['tags'] = set_tags(pattern, message, split_topic)
                 self.influx.write_points([json_data,])
+                if self.debug:
+                    logging.debug('saved to influx measurement %s' % json_data['measurement'])
 
     def subscribe(self):
         self.mqtt.subscribe([(pat['SUB'], 0) for pat in self.patterns])
         self.mqtt.on_message = self.on_message
 
     def loop(self):
+        if self.debug:
+            logging.debug('start mqtt loop')
         self.mqtt.loop_forever()

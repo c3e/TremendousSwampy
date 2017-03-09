@@ -1,3 +1,13 @@
+"""
+PATTERN RULES
+{
+    'SUB': '#',
+    'TAGS': {TAGNAME': 'TOPIC'|INDEX for TOPIC.split("/")|any fixed value except integer or 'TOPIC', ...},
+    'MEASUREMENT': INDEX for TOPIC.split("/")|any fixed value,
+    'TYPE': bool|int|float|str|any fixed value
+}
+"""
+
 PATTERNS = [
     {'SUB': 'foobar/oben/lounge/leinwand/action',
      'TAGS': {'TOPIC': 'TOPIC', 'ROOM': -3},

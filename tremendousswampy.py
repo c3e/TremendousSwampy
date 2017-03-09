@@ -1,4 +1,5 @@
 import argparse
+import logging
 import paho.mqtt.client as mqtt
 from influxdb import InfluxDBClient
 
@@ -15,6 +16,8 @@ parser.add_argument('--test', action="store_true",
                     dest="test", help='runs all test for the module')
 parser.add_argument('--run', action="store_true",
                     dest="run", help='runs the module as daemon')
+
+parser.add_argument('--verbose', action="store_true", dest="debug", help="verbose console output")
 
 parser.add_argument("--mqtthost", type=str, help="MQTT Host",
                     default="localhost")
@@ -33,6 +36,11 @@ parser.add_argument("--influxdb", type=str,
                     help="influxdb Database")
 args = parser.parse_args()
 if args.run:
+    if args.debug:
+        console = logging.StreamHandler()
+        console.setLevel(logging.DEBUG)
+        logging.getLogger('').addHandler(console)
+
     # mqtt client
     def on_connect(client, userdata, flags, rc):
         print("Connected with result code " + str(rc) + " to mqtt broker")
