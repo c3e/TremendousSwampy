@@ -3,8 +3,6 @@ import json
 from paho.mqtt.client import topic_matches_sub
 import logging
 
-logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
-
 PATTERN_RULES = """
 {
     'SUB': '#',
@@ -68,6 +66,11 @@ class Swamp(object):
         self.influx = influxdbclient
         self.patterns = patterns
         self.debug = debug
+
+        if debug:
+            import sys
+            logging.basicConfig(stream=sys.stdout, level=logging.DEBUG,format='%(asctime)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
+
         # subscribe all topics
 
     def on_message(self, client, userdata, message):

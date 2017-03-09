@@ -1,5 +1,6 @@
 import argparse
 import logging
+import sys
 import paho.mqtt.client as mqtt
 from influxdb import InfluxDBClient
 
@@ -37,9 +38,8 @@ parser.add_argument("--influxdb", type=str,
 args = parser.parse_args()
 if args.run:
     if args.debug:
-        console = logging.StreamHandler()
-        console.setLevel(logging.DEBUG)
-        logging.getLogger('').addHandler(console)
+        print("Show debug log on console")
+        # logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
     # mqtt client
     def on_connect(client, userdata, flags, rc):
