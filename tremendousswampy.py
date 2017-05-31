@@ -60,6 +60,10 @@ if args.run:
     mqtt_client.on_connect = on_connect
     mqtt_client.connect(args.mqtthost, args.mqttport, 60)
 
+    while True:
+        print("keeps the program running until the blocking connect function is finished")
+        sleep(1)
+
 elif args.test:
     import pytest
     pytest.main([])
