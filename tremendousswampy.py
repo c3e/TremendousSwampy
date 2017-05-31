@@ -43,7 +43,6 @@ if args.run:
         # logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
     # mqtt client
-    connected = False
     def on_connect(client, userdata, flags, rc):
         print("Connected with result code " + str(rc) + " to mqtt broker")
         connected = True
@@ -52,9 +51,7 @@ if args.run:
     mqtt_client.on_connect = on_connect
     mqtt_client.connect(args.mqtthost, args.mqttport, 60)
 
-    while not connected:
-        print("waiting for mqtt connection")
-        sleep(1)
+    sleep(5)
 
     # influx client
     influx_client = InfluxDBClient(
