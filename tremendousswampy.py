@@ -42,24 +42,24 @@ if args.run:
         print("Show debug log on console")
         # logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
+
+    # influx client
+    influx_client = InfluxDBClient(
+        args.influxhost, args.influxport, args.influxuser, args.influxpass, args.influxdb)
+
     # mqtt client
     def on_connect(client, userdata, flags, rc):
         print("Connected with result code " + str(rc) + " to mqtt broker")
-        connected = True
+
+        # Swamp stuff
+        swamp = Swamp(mqtt_client, influx_client, PATTERNS)
+        swamp.subscribe()
+        swamp.loop()
 
     mqtt_client = mqtt.Client()
     mqtt_client.on_connect = on_connect
     mqtt_client.connect(args.mqtthost, args.mqttport, 60)
 
-    sleep(5)
-
-    # influx client
-    influx_client = InfluxDBClient(
-        args.influxhost, args.influxport, args.influxuser, args.influxpass, args.influxdb)
-    # Swamp stuff
-    swamp = Swamp(mqtt_client, influx_client, PATTERNS)
-    swamp.subscribe()
-    swamp.loop()
 elif args.test:
     import pytest
     pytest.main([])
