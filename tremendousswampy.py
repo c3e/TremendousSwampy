@@ -51,18 +51,14 @@ if args.run:
     def on_connect(client, userdata, flags, rc):
         print("Connected with result code " + str(rc) + " to mqtt broker")
 
-        # Swamp stuff
-        swamp = Swamp(mqtt_client, influx_client, PATTERNS)
-        swamp.subscribe()
-        swamp.loop()
-
     mqtt_client = mqtt.Client()
     mqtt_client.on_connect = on_connect
     mqtt_client.connect(args.mqtthost, args.mqttport, 60)
 
-    while True:
-        print("keeps the program running until the blocking connect function is finished")
-        sleep(1)
+    # Swamp stuff
+    swamp = Swamp(mqtt_client, influx_client, PATTERNS)
+    swamp.subscribe()
+    swamp.loop()
 
 elif args.test:
     import pytest
