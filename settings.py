@@ -20,5 +20,9 @@ PATTERNS = [
     {'SUB': '/hq/og/baellebad/sensoren/temperatur',
      'TAGS': {'location': -3},
      'MEASUREMENT': "temperature", 'TYPE': float
+     },
+        {'SUB': '$SYS/#',
+     'TAGS': {'TOPIC': 'TOPIC', 'format': -1},
+     'MEASUREMENT': "mqtt_statistic", 'TYPE': float
      }
 ]
