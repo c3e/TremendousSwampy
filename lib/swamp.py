@@ -31,7 +31,7 @@ def set_value(pattern, message):
     elif pattern['TYPE'] is str:
         value = message.payload.decode('UTF-8')
     elif pattern['TYPE'] is bool:
-        if message.payload.lower() in ("false", "0", "-1", "off", "none", "not", ""):
+        if message.payload.lower() in (b"false", b"0", b"-1", b"off", b"none", b"not", b""):
             value = False
         else:
             value = True
@@ -85,7 +85,7 @@ class Swamp(object):
                 json_data['tags'] = set_tags(pattern, message, split_topic)
                 self.influx.write_points([json_data,])
                 if self.debug:
-                    logging.debug('saved to influx measurement %s' % json_data['measurement'])
+                    logging.debug('saved to influx measurement %s: %s' % (json_data['measurement'], json_data['fields']))
 
     def subscribe(self):
         self.mqtt.subscribe([(pat['SUB'], 0) for pat in self.patterns])
